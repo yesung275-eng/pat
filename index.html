@@ -461,7 +461,7 @@ body.sheet-on #scrim{opacity:1;pointer-events:auto}body.sheet-on #sheet{transfor
 <style id="intro2">
 .intro2{position:relative;justify-content:space-between;align-items:center;gap:0;text-align:center;min-height:calc(100svh - 120px);padding:6px 0 4px}
 body:has(.intro) .top::before{display:none}
-.i2-lang{display:flex;align-items:center;gap:6px;font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em}
+.i2-lang{display:flex;align-items:center;gap:6px;font-family:inherit;font-size:10.5px;font-weight:300;line-height:1;letter-spacing:.18em}
 .i2-lang button{background:none;border:0;color:var(--fg);opacity:.42;font:inherit;padding:6px 2px;cursor:pointer}
 .i2-lang button.on{opacity:1}
 .i2-lang i{opacity:.3;font-style:normal}
@@ -473,11 +473,11 @@ body:has(.intro) .top::before{display:none}
 .i2-orb i:nth-child(3){background:radial-gradient(circle at 50% 70%,#9fc3e8,transparent 60%);animation-duration:22s}
 .i2-orb::after{content:"";position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 38% 30%,rgba(255,255,255,.75),rgba(255,255,255,.08) 45%,transparent 70%);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 @keyframes i2spin{to{transform:rotate(360deg)}}
-.i2-k{margin:0;font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.32em;opacity:.6}
-.i2-t{margin:0;font-weight:300;font-size:34px;letter-spacing:-.03em}
+.i2-k{margin:0;font-family:inherit;font-size:10.5px;font-weight:300;line-height:1;letter-spacing:.32em;opacity:.6}
+.i2-t{margin:0;font-weight:700;font-size:32px;letter-spacing:-.03em}
 .i2-bot{width:100%;display:flex;flex-direction:column;align-items:center;gap:16px}
 .i2-go{width:min(100%,320px);height:54px;font-size:15px;letter-spacing:.02em}
-.i2-skip{display:flex;align-items:center;gap:14px;font:500 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
+.i2-skip{display:flex;align-items:center;gap:14px;font-family:inherit;font-size:12px;font-weight:300;line-height:1;letter-spacing:.14em}
 .i2-skip button{background:none;border:0;color:var(--fg);opacity:.7;font:inherit;padding:8px 2px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.3)}
 .i2-skip i{width:3px;height:3px;border-radius:50%;background:var(--fg);opacity:.35}
 @media (prefers-reduced-motion:reduce){.i2-orb i{animation:none}}
