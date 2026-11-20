@@ -444,6 +444,9 @@ body.sheet-on #scrim{opacity:1;pointer-events:auto}body.sheet-on #sheet{transfor
 .perf p{display:none}
 .small.fine{opacity:.6;font-size:11px}
 .icohead span:not(.chip){display:none}
+.top::before{content:"";position:absolute;inset:0 -40px -18px;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,rgba(20,20,26,.55),rgba(20,20,26,.25) 70%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);-webkit-mask:linear-gradient(to bottom,#000 70%,transparent);mask:linear-gradient(to bottom,#000 70%,transparent)}
+.scrub{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+.foot{padding-bottom:70px}
 .tabs button{white-space:nowrap;font-size:13.5px;padding:11px 4px}
 .sc-t b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){
@@ -455,6 +458,31 @@ body.sheet-on #scrim{opacity:1;pointer-events:auto}body.sheet-on #sheet{transfor
  .sc-chips::-webkit-scrollbar{display:none}
 }
 </style>
+<style id="intro2">
+.intro2{position:relative;justify-content:space-between;align-items:center;gap:0;text-align:center;min-height:calc(100svh - 120px);padding:6px 0 4px}
+body:has(.intro) .top::before{display:none}
+.i2-lang{display:flex;align-items:center;gap:6px;font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em}
+.i2-lang button{background:none;border:0;color:var(--fg);opacity:.42;font:inherit;padding:6px 2px;cursor:pointer}
+.i2-lang button.on{opacity:1}
+.i2-lang i{opacity:.3;font-style:normal}
+.i2-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;width:100%;padding-bottom:40px}
+.i2-orb{position:relative;width:min(58vw,230px);aspect-ratio:1;margin-bottom:22px;filter:saturate(1.1)}
+.i2-orb i{position:absolute;inset:0;border-radius:50%;mix-blend-mode:screen;filter:blur(18px);opacity:.85;animation:i2spin 14s linear infinite}
+.i2-orb i:nth-child(1){background:radial-gradient(circle at 35% 35%,#f4e7d7,transparent 62%)}
+.i2-orb i:nth-child(2){background:radial-gradient(circle at 65% 40%,#c9b6e4,transparent 60%);animation-duration:18s;animation-direction:reverse}
+.i2-orb i:nth-child(3){background:radial-gradient(circle at 50% 70%,#9fc3e8,transparent 60%);animation-duration:22s}
+.i2-orb::after{content:"";position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 38% 30%,rgba(255,255,255,.75),rgba(255,255,255,.08) 45%,transparent 70%);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+@keyframes i2spin{to{transform:rotate(360deg)}}
+.i2-k{margin:0;font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.32em;opacity:.6}
+.i2-t{margin:0;font-weight:300;font-size:34px;letter-spacing:-.03em}
+.i2-bot{width:100%;display:flex;flex-direction:column;align-items:center;gap:16px}
+.i2-go{width:min(100%,320px);height:54px;font-size:15px;letter-spacing:.02em}
+.i2-skip{display:flex;align-items:center;gap:14px;font:500 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
+.i2-skip button{background:none;border:0;color:var(--fg);opacity:.7;font:inherit;padding:8px 2px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.3)}
+.i2-skip i{width:3px;height:3px;border-radius:50%;background:var(--fg);opacity:.35}
+@media (prefers-reduced-motion:reduce){.i2-orb i{animation:none}}
+</style>
+
 
 
 <div class="moodfield" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="moodfield t" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1546,20 +1574,33 @@ function typePicker(tab){stop();hush();step=-1;updScrub();const ko=LANG==='ko';
   $('#tpback').onclick=intro;
   stage.querySelectorAll('[data-code]').forEach(b=>b.onclick=()=>{FORCE_CODE=b.dataset.code;PENDING_TAB=tab;step=STEPS.length;maxStep=Math.max(maxStep,STEPS.length);result()});window.scrollTo(0,0)}
 function intro(){step=-1;document.documentElement.classList.remove('tmood');stop();hush();closeSheet();updScrub();
+  const MOB=matchMedia('(max-width:640px)').matches;
+  if(MOB){
+  const ko=LANG==='ko';
+  stage.innerHTML=`<section class="screen intro intro2">
+   <div class="i2-lang">${[['ko','KO'],['en','EN']].map(([k,l])=>`<button data-l="${k}" class="${LANG===k?'on':''}">${l}</button>`).join('<i>/</i>')}</div>
+   <div class="i2-hero">     <p class="i2-k">FIND YOUR AESTHETIC</p>
+     <h1 class="i2-t">${ko?'나만의 추구미':'Your aesthetic'}</h1>
+     <div id="cap" hidden></div></div>
+   <div class="i2-bot"><button class="startbtn i2-go" id="start">${ko?'시작하기':'Start'}</button>
+     <div class="i2-skip"><button data-skip="icon">${ko?'스타일 아이콘':'ICONS'}</button><i></i><button data-skip="shop">${ko?'쇼핑':'SHOP'}</button></div></div></section>`;
+  }else{
   stage.innerHTML=`<section class="screen intro">
    <div class="langs">${[['ko','한국어'],['en','English']].map(([k,l])=>`<button data-l="${k}" class="${LANG===k?'on':''}">${l}</button>`).join('')}</div>
    <h1 class="q" style="text-align:center;min-height:0;font-size:30px">${tx('heroT')}</h1>
    <div class="blob" id="greet"><div class="caption small" id="cap" style="font-size:15px;min-height:2.6em;color:var(--mute)"></div></div>
    <button class="startbtn" id="start">${tx('start')}</button>
    <div class="skipbox"><span>${LANG==='ko'?'검사 없이 바로 둘러보기':'Browse without the test'}</span><div><button data-skip="icon">${tx('tabIcon')}</button><button data-skip="shop">${tx('tabShop')}</button></div></div></section>`;
+  }
   paintSnd();
-  stage.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
-  let woke=false;const greet=()=>{if(woke)return;woke=true;say(tr(GREET),{onLine:l=>typeIn($('#cap'),l,30)})};
+  stage.querySelectorAll('.i2-lang button,.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+  let woke=false;const greet=()=>{if(woke)return;woke=true;say(tr(GREET),MOB?{}:{onLine:l=>typeIn($('#cap'),l,30)})};
   stage.querySelector('.intro').addEventListener('pointerdown',e=>{if(!e.target.closest('button'))greet()});
   $('#start').onclick=()=>{FORCE_CODE=null;prepareRound();go(1)};
   stage.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>typePicker(b.dataset.skip));
 }
 document.documentElement.lang=LANG;paintSnd();intro();
+try{matchMedia('(max-width:640px)').addEventListener('change',()=>{if(step===-1&&$('.intro'))intro()})}catch(e){}
 
 /* ===== 보세샵 자동 업데이트: 사이트에 같이 올라간 products.json(매일 자동 갱신)을 읽어요 ===== */
 const bsItem=(url,shop,pre,[no,n,p,im])=>{const f=fineOf(n);return {bs:1,b:shop,n,p,img:/^https?:|^\/\//.test(im)?(im.startsWith('//')?'https:'+im:im):pre+im,url:url+'/product/detail.html?product_no='+no,home:url,fw:f?f[1]:'',fm:f?famOf(f[1]):'',cat:shop}};
